@@ -4,7 +4,7 @@
   "private": true,
   "main": "index.ts",
   "scripts": {
-    "setup": "npx expo install react react-native @react-native-async-storage/async-storage expo-splash-screen expo-status-bar react-native-safe-area-context react-native-svg",
+    "setup": "node scripts/install-native.js",
     "start": "expo start",
     "ios:prebuild": "expo prebuild --platform ios --clean",
     "typecheck": "tsc --noEmit"
