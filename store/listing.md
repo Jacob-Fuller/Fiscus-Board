@@ -15,7 +15,7 @@
 A clear, private budget built around how often you're paid. Turn every bill into what it costs each pay, and see exactly what's left.
 
 **Keywords (100):**
-budget,pay,fortnight,payday,bills,expenses,income,planner,money,spending,salary,split,savings,tracker
+budget,pay,fortnight,payday,bills,expenses,income,planner,money,spending,salary,split,savings
 
 **Description:**
 Fiscus Board is a simple, private budget laid out like a spreadsheet and built around your pay cycle.
