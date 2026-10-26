@@ -16,7 +16,9 @@ export function InsightsScreen({ state }: { state: State }) {
   const outSecs = state.sections.filter((s) => s.type === 'out');
 
   // Where your pay goes
-  const parts: Part[] = outSecs.map((s) => ({ name: s.name + (s.split > 1 ? ' (your share)' : ''), v: sectionShare(s, period), color: t.sw[s.color] }));
+  // Each section gets its own colour here so they can be told apart, whatever colours they use on the Budget tab.
+  const BAR: Swatch[] = ['blue', 'teal', 'brass', 'rose', 'violet', 'orange', 'slate'];
+  const parts: Part[] = outSecs.map((s, i) => ({ name: s.name + (s.split > 1 ? ' (your share)' : ''), v: sectionShare(s, period), color: t.sw[BAR[i % BAR.length]] }));
   if (T.left > 0) parts.push({ name: 'Left over', v: T.left, color: t.pos });
   const base = Math.max(T.inc, T.out) || 1;
 
