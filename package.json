@@ -4,20 +4,13 @@
   "private": true,
   "main": "index.ts",
   "scripts": {
-    "setup": "npx expo install --fix",
+    "setup": "npx expo install react react-native @react-native-async-storage/async-storage expo-splash-screen expo-status-bar react-native-safe-area-context react-native-svg",
     "start": "expo start",
     "ios:prebuild": "expo prebuild --platform ios --clean",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "*",
-    "expo": "~54.0.0",
-    "expo-splash-screen": "*",
-    "expo-status-bar": "*",
-    "react": "19.1.0",
-    "react-native": "~0.81.0",
-    "react-native-safe-area-context": "*",
-    "react-native-svg": "*"
+    "expo": "~54.0.0"
   },
   "devDependencies": {
     "@types/react": "~19.1.0",

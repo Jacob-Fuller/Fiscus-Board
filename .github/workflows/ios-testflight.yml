@@ -38,7 +38,7 @@ jobs:
       - name: Install tools
         run: |
           npm install
-          npx expo install --fix
+          npm run setup
           gem install fastlane -N
 
       - name: Create the iOS project
