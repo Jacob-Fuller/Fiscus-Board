@@ -1,0 +1,125 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>
+*{box-sizing:border-box;margin:0}
+body{width:440px;height:956px;overflow:hidden;font-family:-apple-system,"SF Pro Text","Inter",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.num{font-variant-numeric:tabular-nums}
+#stage{position:relative;width:440px;height:956px;overflow:hidden}
+.head{position:absolute;left:0;right:0;top:58px;text-align:center;padding:0 30px;z-index:3}
+.head h1{font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:37px;line-height:1.08;letter-spacing:-.3px}
+.head p{text-wrap:balance;margin-top:10px;font-size:16.5px;line-height:1.35;opacity:.78}
+.phone{position:absolute;left:50%;top:232px;width:390px;height:844px;transform:translateX(-50%) scale(.86);transform-origin:top center;border-radius:62px;padding:12px;z-index:2}
+.screen{position:relative;width:100%;height:100%;border-radius:50px;overflow:hidden}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:120px;height:35px;border-radius:20px;background:#000;z-index:9}
+.status{height:54px;display:flex;justify-content:space-between;align-items:center;padding:6px 34px 0;font-weight:600;font-size:16px}
+.app{padding:0 14px}
+.hdr{display:flex;align-items:center;gap:8px;padding:4px 2px 12px}
+.hdr .t{flex:1;font-weight:700;font-size:19px;letter-spacing:-.3px}
+.seg{display:flex;border-radius:12px;padding:3px;gap:2px;margin-bottom:14px}
+.seg div{flex:1;text-align:center;padding:7px 0;border-radius:9px;font-size:14px;font-weight:600}
+.card{position:relative;border-radius:22px;padding:18px;overflow:hidden}
+.card .k{font-size:13px;font-weight:500}
+.card .big{font-size:48px;font-weight:600;letter-spacing:-2px;margin-top:2px}
+.card .big span{font-size:24px;font-weight:500;letter-spacing:-.5px}
+.stats{display:flex;gap:1px;border-radius:13px;overflow:hidden;margin-top:14px}
+.stats div{flex:1;padding:9px 11px}
+.stats b{display:block;font-size:10.5px;letter-spacing:.8px;text-transform:uppercase;color:#9BA1B5;font-weight:600}
+.stats i{font-style:normal;font-size:15.5px;font-weight:600;letter-spacing:-.3px}
+.sec{border-radius:18px;overflow:hidden;margin-top:16px;border:.5px solid}
+.sh{display:flex;align-items:center;gap:8px;padding:12px 15px}
+.sh .dot{width:10px;height:10px;border-radius:5px}
+.sh .n{font-weight:700;font-size:16px}
+.tag{border-radius:99px;padding:2px 8px;font-size:11.5px;font-weight:600}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 15px;border-top:.5px solid}
+.ch{padding:6px 15px;font-size:10.5px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;display:flex;justify-content:space-between}
+.it .nm{font-size:15px;font-weight:500}
+.it .sub{font-size:12.5px;margin-top:1px}
+.it .v{font-size:15px;font-weight:600}
+.subh{font-size:11.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase}
+.tick{width:25px;height:25px;border-radius:13px;border:1.5px solid;flex:none;display:flex;align-items:center;justify-content:center}
+.blk{margin-top:18px}
+.blk h3{font-size:12.5px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;padding:0 4px 8px}
+.blk .bx{border-radius:18px;padding:16px;border:.5px solid}
+.leg{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:14px}
+.leg .sq{width:10px;height:10px;border-radius:3px}
+.leg .nm{flex:1}
+.leg .pc{width:38px;text-align:right;font-size:12px}
+.sheet{position:absolute;left:0;right:0;bottom:0;top:96px;border-radius:14px 14px 0 0;z-index:5;box-shadow:0 -10px 40px rgba(0,0,0,.35)}
+.bar{display:flex;justify-content:space-between;align-items:center;padding:15px 16px;border-bottom:.5px solid;font-size:17px}
+.fld{padding:0 18px;margin-top:18px}
+.fld label{display:block;font-size:13px;font-weight:500;margin-bottom:7px}
+.inp{border-radius:12px;padding:12px 14px;font-size:17px;border:.5px solid}
+.sw{display:flex;justify-content:space-between}
+.sw div{width:38px;height:38px;border-radius:19px;border:2px solid transparent;display:flex;align-items:center;justify-content:center}
+.sw div i{width:28px;height:28px;border-radius:14px;display:block}
+</style></head><body><div id="stage"></div>
+<script>
+const SW={light:{brass:'#8E6A1F',blue:'#3550C8',teal:'#11817C',green:'#2F7A3A',orange:'#B4561E',rose:'#B13E6B',violet:'#6B48B5',slate:'#56607A'},dark:{brass:'#D9B45F',blue:'#8193FF',teal:'#3CC2BC',green:'#7BCB6E',orange:'#F0995C',rose:'#E57BA4',violet:'#A889E6',slate:'#9AA4BE'}};
+const BASE={light:{bg:'#F4F5F8',surface:'#FFFFFF',sunk:'#F0F2F6',band:'#E9ECF2',ink:'#121625',muted:'#646B7F',line:'#E3E6ED',pos:'#1B8456',neg:'#B83D2B',other:'#A2A8B8',card:'#141A2E',card2:'#090C17',accentInk:'#FFFFFF'},dark:{bg:'#0A0D16',surface:'#131725',sunk:'#171C2C',band:'#1C2235',ink:'#ECEDF3',muted:'#9AA0B4',line:'#232939',pos:'#4CC48A',neg:'#F07C66',other:'#5E667D',card:'#1B2138',card2:'#10142A',accentInk:'#12131A'}};
+function mix(a,b,w){const p=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));const x=p(a),y=p(b);return'#'+x.map((v,i)=>Math.round(v*w+y[i]*(1-w)).toString(16).padStart(2,'0')).join('')}
+const PER={weekly:2,fortnightly:1,monthly:12/26,quarterly:4/26,yearly:1/26};const FL={weekly:'Weekly',fortnightly:'Fortnightly',monthly:'Monthly',quarterly:'Quarterly',yearly:'Yearly'};
+const money=(v,d=2)=>{const n=v<0;const [w,c]=Math.abs(v).toFixed(d).split('.');return(n?'−':'')+'$'+w.replace(/\B(?=(\d{3})+(?!\d))/g,',')+(c?'.'+c:'')};
+const signed=(v,out)=>(out&&v>0.004?'−':'')+money(Math.abs(v));
+const H=n=>({h:n});
+const SECTIONS=[
+ {name:'Income',type:'in',split:1,color:'green',items:[['Salary',2850,'fortnightly'],['Side work',400,'monthly']]},
+ {name:'Household',type:'out',split:2,color:'blue',items:[H('Bills'),['Rent',560,'weekly'],['Electricity',420,'quarterly'],['Internet',85,'monthly'],H('Food'),['Groceries',180,'weekly']]},
+ {name:'Personal',type:'out',split:1,color:'brass',items:[['Fuel',70,'weekly'],['Car insurance',1140,'yearly'],['Phone',55,'monthly'],['Gym',32,'fortnightly'],['Streaming',25,'monthly']]},
+ {name:'Savings',type:'out',split:1,color:'violet',items:[['Holiday fund',150,'fortnightly'],['Emergency fund',100,'fortnightly']]},
+];
+const pf=e=>e.h?0:e[1]*PER[e[2]];
+const secTotal=s=>s.items.reduce((a,e)=>a+pf(e),0);
+const share=s=>secTotal(s)/s.split;
+const inc=SECTIONS.filter(s=>s.type=='in').reduce((a,s)=>a+share(s),0), out=SECTIONS.filter(s=>s.type=='out').reduce((a,s)=>a+share(s),0), left=inc-out;
+const ICON={gear:c=>`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.820l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`,
+eye:c=>`<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>`,
+more:c=>`<svg width="18" height="18" viewBox="0 0 24 24" fill="${c}"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>`,
+check:c=>`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>`,
+logo:`<svg width="26" height="26" viewBox="0 0 24 24"><rect width="24" height="24" rx="7" fill="#121C3E"/><path d="M12 4.6L19 8.4H5z" fill="#E2B862"/><rect x="5.6" y="9.2" width="12.8" height="1.3" rx=".3" fill="#E2B862"/><rect x="6.6" y="11.1" width="1.6" height="5.4" rx=".4" fill="#E2B862"/><rect x="9.5" y="11.1" width="1.6" height="5.4" rx=".4" fill="#E2B862"/><rect x="12.9" y="11.1" width="1.6" height="5.4" rx=".4" fill="#E2B862"/><rect x="15.8" y="11.1" width="1.6" height="5.4" rx=".4" fill="#E2B862"/><rect x="5" y="17.1" width="14" height="1.5" rx=".4" fill="#E2B862"/></svg>`};
+function theme(mode,acc){return{...BASE[mode],mode,sw:SW[mode],accent:SW[mode][acc]}}
+function header(t,tab){return `<div class="status" style="color:${t.ink}"><span>9:41</span><span style="display:flex;gap:6px;align-items:center"><svg width="18" height="12" viewBox="0 0 18 12" fill="${t.ink}"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="${t.ink}" opacity=".4"/><rect x="2.5" y="2.5" width="17" height="8" rx="2" fill="${t.ink}"/><rect x="25" y="4.5" width="1.6" height="4" rx=".8" fill="${t.ink}" opacity=".4"/></svg></span></div>
+<div class="app"><div class="hdr">${ICON.logo}<div class="t" style="color:${t.ink}">Fiscus Board</div>${ICON.eye(t.muted)}<span style="width:14px"></span>${ICON.gear(t.muted)}</div>
+<div class="seg" style="background:${t.band}">${['Budget','Insights'].map(x=>`<div style="color:${x==tab?t.ink:t.muted};${x==tab?`background:${t.mode=='dark'?'#2C3452':t.surface};box-shadow:0 1px 4px rgba(0,0,0,${t.mode=='dark'?.3:.08})`:''}">${x}</div>`).join('')}</div>`}
+function totalCard(t){const [w,c]=money(Math.abs(left)).split('.');return `<div class="card" style="background:linear-gradient(135deg,${t.card},${t.card2});border:.5px solid rgba(255,255,255,.12)"><div style="position:absolute;inset:0;background:radial-gradient(85% 85% at 100% 0%,${t.accent}3d,transparent)"></div><div style="position:relative"><div class="k" style="color:#9BA1B5">Left each fortnight</div><div class="big num" style="color:#F3F0E8">${w}<span style="color:#9BA1B5">.${c}</span></div>
+<div class="stats" style="background:rgba(255,255,255,.09)">${[['In',money(inc,0)],['Out',money(out,0)],['Per year',money(left*26,0)]].map(([k,v])=>`<div style="background:rgba(9,12,23,.35)"><b>${k}</b><i class="num" style="color:#F3F0E8">${v}</i></div>`).join('')}</div></div></div>`}
+function section(t,s,opt={}){const out=s.type=='out',sc=t.sw[s.color],vc=out?t.ink:t.pos;let under=false;
+let h=`<div class="sec" style="background:${t.surface};border-color:${t.line}"><div class="sh" style="background:${mix(sc,t.surface,.15)}"><div class="dot" style="background:${sc}"></div><div class="n" style="color:${t.ink};flex:none">${s.name}</div>${s.split>1?`<span class="tag" style="background:${t.surface};color:${t.muted}">Split ÷${s.split}</span>`:''}${!out?`<span class="tag" style="background:${t.surface};color:${t.muted}">Income</span>`:''}<span style="flex:1"></span>${ICON.more(t.muted)}</div>
+<div class="ch" style="background:${t.sunk};color:${t.muted}"><span>Item</span><span>Per fortnight</span></div>`;
+s.items.forEach((e,i)=>{if(e.h){under=true;let sum=0;for(let j=i+1;j<s.items.length&&!s.items[j].h;j++)sum+=pf(s.items[j]);h+=`<div class="row" style="border-color:${t.line};background:${mix(sc,t.surface,.07)};padding:9px 15px"><span class="subh" style="color:${mix(sc,t.ink,.7)}">${e.h}</span><span class="num" style="font-size:12.5px;font-weight:600;color:${t.muted}">${signed(sum,out)}</span></div>`;return}
+const ck=opt.ticks&&opt.ticks.includes(e[0]);
+h+=`<div class="row it" style="border-color:${t.line}">${opt.ticks?`<div class="tick" style="border-color:${ck?t.accent:t.line};background:${ck?t.accent:'transparent'}">${ck?ICON.check(t.accentInk):''}</div>`:''}<div style="flex:1;padding-left:${under?12:0}px"><div class="nm" style="color:${ck?t.muted:t.ink}">${e[0]}</div><div class="sub num" style="color:${t.muted}">${money(e[1])} ${FL[e[2]]}</div></div><div class="v num" style="color:${vc}">${signed(pf(e),out)}</div></div>`});
+if(!opt.noTotal){h+=`<div class="row" style="border-color:${t.line};background:${t.sunk}"><b style="font-size:15px;color:${t.ink}">Total</b><b class="num" style="font-size:15px;color:${vc}">${signed(secTotal(s),out)}</b></div>`;
+if(s.split>1)h+=`<div class="row" style="border-color:${t.line};background:${mix(sc,t.surface,.1)}"><b style="font-size:15px;color:${t.ink}">Your share</b><b class="num" style="font-size:15px;color:${t.ink}">${signed(secTotal(s)/s.split,out)}</b></div>`;}
+return h+'</div>'}
+function insights(t){const parts=SECTIONS.filter(s=>s.type=='out').map(s=>({n:s.name+(s.split>1?' (your share)':''),v:share(s),c:t.sw[s.color]}));parts.push({n:'Left over',v:left,c:t.pos});
+const items=[];SECTIONS.filter(s=>s.type=='out').forEach(s=>s.items.forEach(e=>!e.h&&items.push({n:e[0],v:pf(e)/s.split})));items.sort((a,b)=>b.v-a.v);
+const D=['blue','teal','brass','rose','violet','green'];const sl=items.slice(0,6).map((x,i)=>({...x,c:t.sw[D[i]]}));const rest=items.slice(6).reduce((a,x)=>a+x.v,0);sl.push({n:'Everything else',v:rest,c:t.other});const st=sl.reduce((a,x)=>a+x.v,0);
+const R=56,C=2*Math.PI*R;let acc=0;const circ=sl.map(x=>{const len=x.v/st*C;const r=`<circle cx="75" cy="75" r="${R}" fill="none" stroke="${x.c}" stroke-width="18" stroke-dasharray="${Math.max(len-1.5,.5)} ${C}" stroke-dashoffset="${-acc}" transform="rotate(-90 75 75)"/>`;acc+=len;return r}).join('');
+const leg=(ps,tot)=>ps.map(x=>`<div class="leg"><div class="sq" style="background:${x.c}"></div><div class="nm" style="color:${t.ink}">${x.n}</div><div class="num" style="color:${t.ink}">${money(x.v)}</div><div class="pc num" style="color:${t.muted}">${Math.round(x.v/tot*100)}%</div></div>`).join('');
+return `<div style="font-size:29px;font-weight:700;letter-spacing:-1px;color:${t.ink};margin-top:2px">Insights</div>
+<div class="blk"><h3 style="color:${t.muted}">Where your pay goes</h3><div class="bx" style="background:${t.surface};border-color:${t.line}"><div style="display:flex;height:16px;border-radius:8px;overflow:hidden;gap:2px">${parts.map(x=>`<div style="width:${x.v/inc*100}%;background:${x.c}"></div>`).join('')}</div>${leg(parts,inc)}</div></div>
+<div class="blk"><h3 style="color:${t.muted}">Biggest expenses</h3><div class="bx" style="background:${t.surface};border-color:${t.line}"><div style="text-align:center"><svg width="170" height="170" viewBox="0 0 150 150"><circle cx="75" cy="75" r="${R}" fill="none" stroke="${t.sunk}" stroke-width="18"/>${circ}<text x="75" y="70" text-anchor="middle" fill="${t.muted}" font-size="11">Per fortnight</text><text x="75" y="91" text-anchor="middle" fill="${t.ink}" font-size="18" font-weight="600">${money(out,0)}</text></svg></div>${leg(sl,st)}</div></div>`}
+function settingsSheet(t,acc){const seg=(opts,on)=>`<div class="seg" style="background:${t.band};margin:0">${opts.map(x=>`<div style="color:${x==on?t.ink:t.muted};${x==on?`background:${t.mode=='dark'?'#2C3452':t.surface};box-shadow:0 1px 4px rgba(0,0,0,.08)`:''}">${x}</div>`).join('')}</div>`;
+return `<div class="sheet" style="background:${t.surface}"><div class="bar" style="border-color:${t.line}"><span style="width:60px"></span><b style="color:${t.ink}">Settings</b><b style="color:${t.accent};width:60px;text-align:right">Done</b></div>
+<div class="fld"><label style="color:${t.muted}">Budget name</label><div class="inp" style="background:${t.bg};border-color:${t.line};color:${t.ink}">Fiscus Board</div></div>
+<div class="fld"><label style="color:${t.muted}">Show amounts per</label>${seg(['Week','Fortnight','Month'],'Fortnight')}</div>
+<div class="fld"><label style="color:${t.muted}">Appearance</label>${seg(['Light','Dark'],t.mode=='dark'?'Dark':'Light')}</div>
+<div class="fld"><label style="color:${t.muted}">Accent</label><div class="sw">${['brass','blue','teal','green','orange','rose','violet'].map(k=>`<div style="border-color:${k==acc?t.sw[k]:'transparent'}"><i style="background:${t.sw[k]}"></i></div>`).join('')}</div></div>
+<div class="fld"><label style="color:${t.muted}">Review every 3 months</label>${seg(['Off','On'],'On')}</div></div>`}
+function reviewBanner(t,n,tot){return `<div style="border-radius:16px;border:1px solid ${mix(t.accent,t.line,.45)};background:${t.surface};padding:13px 15px;margin-bottom:16px"><div style="display:flex;justify-content:space-between;align-items:baseline"><b style="font-size:15px;color:${t.ink};font-weight:600">Quarterly review</b><span class="num" style="font-size:13px;color:${t.muted}">${n} of ${tot} checked</span></div><div style="height:6px;border-radius:3px;background:${t.sunk};margin:9px 0"><div style="height:6px;border-radius:3px;background:${t.accent};width:${n/tot*100}%"></div></div><div style="font-size:13px;color:${t.muted}">Tick each amount once you've checked it.</div></div>`}
+
+/* decorative backdrop: original columns + meander band, not from any other app */
+function backdrop(v){const gold='#E2B862';
+const cols=[...Array(7)].map((_,i)=>`<rect x="${18+i*66}" y="700" width="16" height="320" rx="3" fill="${gold}" opacity=".06"/>`).join('');
+const key=[...Array(12)].map((_,i)=>`<path d="M${i*40} 0h30v20h-20v-10h10" fill="none" stroke="${gold}" stroke-width="2" opacity=".22" transform="translate(0,${v.keyY||200})"/>`).join('');
+return `<svg width="440" height="956" style="position:absolute;inset:0" viewBox="0 0 440 956"><defs><radialGradient id="g" cx="${v.gx||50}%" cy="${v.gy||18}%" r="75%"><stop offset="0" stop-color="${v.c1}"/><stop offset="1" stop-color="${v.c2}"/></radialGradient><radialGradient id="h" cx="50%" cy="40%" r="50%"><stop offset="0" stop-color="${gold}" stop-opacity=".22"/><stop offset="1" stop-color="${gold}" stop-opacity="0"/></radialGradient></defs><rect width="440" height="956" fill="url(#g)"/><ellipse cx="220" cy="560" rx="300" ry="380" fill="url(#h)"/>${cols}${key}</svg>`}
+const SCENES={
+ 1:{c1:'#1E2C66',c2:'#070B1E',ink:'#F3ECDA',h:'Budget around<br>your payday',p:'Every bill turned into what it costs each pay.',mode:'dark',acc:'brass',body:t=>header(t,'Budget')+totalCard(t)+section(t,SECTIONS[0])+section(t,SECTIONS[1])},
+ 2:{c1:'#14324F',c2:'#050D18',ink:'#EAF2F5',h:'Laid out like<br>a spreadsheet',p:'Sections, subheadings and totals, split with whoever you share with.',mode:'dark',acc:'teal',gx:20,body:t=>header(t,'Budget')+`<div style="margin-top:-16px"></div>`+section(t,SECTIONS[1])+section(t,SECTIONS[3])},
+ 3:{c1:'#2A1F4F',c2:'#0A0718',ink:'#F1ECF8',h:'See where<br>your pay goes',p:'Your biggest costs and what’s left, at a glance.',mode:'dark',acc:'violet',gx:80,body:t=>header(t,'Insights')+insights(t)},
+ 4:{c1:'#F6EEDB',c2:'#D9C79E',ink:'#1A1F33',h:'A check-in every<br>three months',p:'Tick off each amount to keep it current.',mode:'light',acc:'brass',light:true,body:t=>header(t,'Budget')+reviewBanner(t,3,7)+section(t,SECTIONS[2],{ticks:['Fuel','Car insurance','Phone'],noTotal:true})+section(t,SECTIONS[3],{ticks:[],noTotal:true})},
+ 5:{c1:'#1E2C66',c2:'#070B1E',ink:'#F3ECDA',h:'Make it yours',p:'Light or dark, seven accents, fully private.',mode:'light',acc:'blue',gx:50,body:t=>header(t,'Budget')+totalCard(t)+section(t,SECTIONS[0])+settingsSheet(t,'blue')},
+};
+const n=+location.hash.slice(1)||1,v=SCENES[n],t=theme(v.mode,v.acc);
+document.getElementById('stage').innerHTML=backdrop(v)+`<div class="head" style="color:${v.ink}"><h1>${v.h}</h1><p>${v.p}</p></div>
+<div class="phone" style="background:linear-gradient(145deg,#3a3a40,#121216);box-shadow:0 40px 80px rgba(0,0,0,${v.light?.28:.55}),0 0 0 1.5px #55555c inset"><div class="screen" style="background:${t.bg}"><div class="island"></div>${v.body(t)}</div></div>`;
+</script></body></html>
