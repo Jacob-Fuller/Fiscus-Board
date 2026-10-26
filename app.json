@@ -22,7 +22,7 @@
           "image": "./assets/splash-icon.png",
           "imageWidth": 120,
           "resizeMode": "contain",
-          "backgroundColor": "#F4F5F8",
+          "backgroundColor": "#0E1734",
           "dark": {
             "image": "./assets/splash-icon.png",
             "backgroundColor": "#0A0D16"

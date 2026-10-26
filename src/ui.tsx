@@ -54,9 +54,14 @@ export const Icon = {
 export function Logo({ size = 26 }: { size?: number }) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24">
-      <Rect width={24} height={24} rx={7} fill="#141A30" />
-      <Circle cx={12} cy={12} r={8.6} fill="none" stroke="#D9B45F" strokeOpacity={0.55} strokeWidth={0.6} />
-      <Path d="M9.6 17V7.6h5.4M9.6 11.6h3.6" stroke="#E8C877" strokeWidth={2.4} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      <Rect width={24} height={24} rx={7} fill="#121C3E" />
+      <Path d="M12 4.6L19 8.4H5z" fill="#E2B862" />
+      <Rect x={5.6} y={9.2} width={12.8} height={1.3} rx={0.3} fill="#E2B862" />
+      <Rect x={6.6} y={11.1} width={1.6} height={5.4} rx={0.4} fill="#E2B862" />
+      <Rect x={9.5} y={11.1} width={1.6} height={5.4} rx={0.4} fill="#E2B862" />
+      <Rect x={12.9} y={11.1} width={1.6} height={5.4} rx={0.4} fill="#E2B862" />
+      <Rect x={15.8} y={11.1} width={1.6} height={5.4} rx={0.4} fill="#E2B862" />
+      <Rect x={5} y={17.1} width={14} height={1.5} rx={0.4} fill="#E2B862" />
     </Svg>
   );
 }
