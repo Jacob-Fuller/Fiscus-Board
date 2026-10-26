@@ -81,7 +81,7 @@ function Body({ t, sheet, state, onChange, onSave, onDelete, onMove, onSettings,
           <Seg<Period> value={st.period} options={[['week', 'Week'], ['fortnight', 'Fortnight'], ['month', 'Month']]} onChange={(v) => onSettings({ period: v })} />
         </Field>
         <Field label="Appearance">
-          <Seg<Settings['theme']> value={st.theme} options={[['system', 'System'], ['light', 'Light'], ['dark', 'Dark']]} onChange={(v) => onSettings({ theme: v })} />
+          <Seg<Settings['theme']> value={st.theme === 'light' ? 'light' : 'dark'} options={[['light', 'Light'], ['dark', 'Dark']]} onChange={(v) => onSettings({ theme: v })} />
         </Field>
         <Field label="Accent">
           <Swatches keys={ACCENTS} value={st.accent} onChange={(v) => onSettings({ accent: v })} />
@@ -207,11 +207,11 @@ function ImportField({ t, onImport }: { t: Theme; onImport: (text: string) => st
     if (err) setMsg({ ok: false, text: err });
     else {
       setText('');
-      setMsg({ ok: true, text: 'Budget imported.' });
+      setMsg({ ok: true, text: 'Budget restored.' });
     }
   };
   return (
-    <Field label="Import budget">
+    <Field label="Restore from backup">
       <TextInput
         style={[styles.input, { backgroundColor: t.bg, borderColor: t.line, color: t.ink, minHeight: 90, fontSize: 13, textAlignVertical: 'top' }]}
         value={text}
@@ -223,10 +223,10 @@ function ImportField({ t, onImport }: { t: Theme; onImport: (text: string) => st
         multiline
         autoCorrect={false}
         autoCapitalize="none"
-        placeholder="Paste the text from Export in the web app"
+        placeholder="Paste your backup text"
         placeholderTextColor={t.muted}
       />
-      <Button title={confirm ? 'Replace my budget' : 'Import'} kind={confirm ? 'danger' : 'ghost'} onPress={run} disabled={!text.trim()} />
+      <Button title={confirm ? 'Replace my budget' : 'Restore'} kind={confirm ? 'danger' : 'ghost'} onPress={run} disabled={!text.trim()} />
       {msg && <Text style={{ fontSize: 13, color: msg.ok ? t.pos : t.neg }}>{msg.text}</Text>}
     </Field>
   );

@@ -2,7 +2,7 @@ import { createContext, useContext } from 'react';
 
 export const SWATCHES = ['blue', 'teal', 'green', 'brass', 'orange', 'rose', 'violet', 'slate'] as const;
 export type Swatch = (typeof SWATCHES)[number];
-export const ACCENTS: Swatch[] = ['brass', 'blue', 'teal', 'green', 'rose', 'violet'];
+export const ACCENTS: Swatch[] = ['brass', 'blue', 'teal', 'green', 'orange', 'rose', 'violet'];
 
 const SW: Record<'light' | 'dark', Record<Swatch, string>> = {
   light: { brass: '#8E6A1F', blue: '#3550C8', teal: '#11817C', green: '#2F7A3A', orange: '#B4561E', rose: '#B13E6B', violet: '#6B48B5', slate: '#56607A' },

@@ -42,11 +42,10 @@ export const Icon = {
       <Path d="M3 3l18 18M10.6 5.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4M6.6 6.6C3.8 8.4 2 12 2 12s3.6 7 10 7a9.6 9.6 0 0 0 5.4-1.6M9.9 9.9a3 3 0 0 0 4.2 4.2" />
     </Svg>
   ),
-  sliders: ({ size = 21, color }: IconProps) => (
-    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={2} strokeLinecap="round">
-      <Path d="M4 7h10M18 7h2M4 17h4M12 17h8" />
-      <Circle cx={16} cy={7} r={2} />
-      <Circle cx={10} cy={17} r={2} />
+  gear: ({ size = 22, color }: IconProps) => (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round">
+      <Circle cx={12} cy={12} r={3} />
+      <Path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
     </Svg>
   ),
 };
@@ -95,8 +94,9 @@ export function Seg<T extends string | number>({ value, options, onChange, wrap 
             accessibilityRole="button"
             accessibilityState={{ selected: on }}
             style={[
-              { flexGrow: 1, paddingVertical: 8, paddingHorizontal: 10, borderRadius: 9, alignItems: 'center' },
-              on && { backgroundColor: t.surface, shadowColor: '#000', shadowOpacity: t.mode === 'dark' ? 0.3 : 0.08, shadowRadius: 4, shadowOffset: { width: 0, height: 1 } },
+              wrap ? { flexGrow: 1 } : { flex: 1 },
+              { paddingVertical: 8, paddingHorizontal: 10, borderRadius: 9, alignItems: 'center' },
+              on && { backgroundColor: t.mode === 'dark' ? '#2C3452' : t.surface, shadowColor: '#000', shadowOpacity: t.mode === 'dark' ? 0.3 : 0.08, shadowRadius: 4, shadowOffset: { width: 0, height: 1 } },
             ]}
           >
             <Text style={{ fontSize: 14, fontWeight: '600', color: on ? t.ink : t.muted }}>{label}</Text>
@@ -110,7 +110,7 @@ export function Seg<T extends string | number>({ value, options, onChange, wrap 
 export function Swatches({ keys, value, onChange }: { keys: readonly Swatch[]; value: Swatch; onChange: (s: Swatch) => void }) {
   const t = useTheme();
   return (
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
       {keys.map((k) => {
         const on = k === value;
         return (
@@ -120,9 +120,9 @@ export function Swatches({ keys, value, onChange }: { keys: readonly Swatch[]; v
             accessibilityRole="button"
             accessibilityLabel={k}
             accessibilityState={{ selected: on }}
-            style={{ width: 40, height: 40, borderRadius: 20, alignItems: 'center', justifyContent: 'center', borderWidth: 2, borderColor: on ? t.sw[k] : 'transparent' }}
+            style={{ width: 38, height: 38, borderRadius: 19, alignItems: 'center', justifyContent: 'center', borderWidth: 2, borderColor: on ? t.sw[k] : 'transparent' }}
           >
-            <View style={{ width: 30, height: 30, borderRadius: 15, backgroundColor: t.sw[k] }} />
+            <View style={{ width: 28, height: 28, borderRadius: 14, backgroundColor: t.sw[k] }} />
           </Pressable>
         );
       })}

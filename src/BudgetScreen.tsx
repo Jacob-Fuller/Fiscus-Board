@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Svg, { Defs, LinearGradient, RadialGradient, Rect, Stop } from 'react-native-svg';
-import { FREQ_LABEL, PERIODS, Section, State, allItems, formatDate, headingTotal, isHeading, money, perPeriod, reviewActive, sectionTotal, signed, totals } from './budget';
+import { FREQ_LABEL, PERIODS, Section, State, allItems, headingTotal, isHeading, money, perPeriod, reviewActive, sectionTotal, signed, totals } from './budget';
 import { mix, useTheme } from './theme';
 import { Icon, hair, num } from './ui';
 
@@ -49,9 +49,10 @@ function TotalCard({ state }: { state: State }) {
   const neg = T.left < 0;
   const [whole, cents] = money(Math.abs(T.left)).split('.');
   const perYear = (T.left / p.f) * 26;
+  const [size, setSize] = useState({ w: 0, h: 0 });
   return (
-    <View style={styles.card}>
-      <Svg style={StyleSheet.absoluteFill} width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+    <View style={styles.card} onLayout={(e) => setSize({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}>
+      <Svg style={{ position: 'absolute', left: 0, top: 0 }} width={size.w} height={size.h} viewBox="0 0 100 100" preserveAspectRatio="none">
         <Defs>
           <LinearGradient id="cardBg" x1="0" y1="0" x2="1" y2="1">
             <Stop offset="0" stopColor={t.card} />
@@ -203,17 +204,6 @@ function ReviewBanner({ state }: { state: State }) {
           <View style={{ height: 6, borderRadius: 3, backgroundColor: t.accent, width: `${(n / items.length) * 100}%` as `${number}%` }} />
         </View>
         <Text style={{ fontSize: 13, color: t.muted }}>Tick each amount once you've checked it.</Text>
-      </View>
-    );
-  }
-  const r = state.review;
-  if (r.on && r.last && r.due && Date.now() - r.last < 864e5) {
-    return (
-      <View style={box}>
-        <View style={styles.reviewTop}>
-          <Text style={{ fontWeight: '600', fontSize: 15, color: t.ink }}>Review complete</Text>
-          <Text style={{ fontSize: 13.5, color: t.muted }}>Next review {formatDate(r.due)}</Text>
-        </View>
       </View>
     );
   }

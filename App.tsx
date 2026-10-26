@@ -27,6 +27,8 @@ function Root() {
 
   useEffect(() => {
     loadState().then((s) => {
+      // Appearance is Light or Dark only; a first launch takes the phone's current setting.
+      if (s.settings.theme === 'system') s = { ...s, settings: { ...s.settings, theme: system === 'light' ? 'light' : 'dark' } };
       setState(s);
       SplashScreen.hideAsync().catch(() => {});
     });
@@ -152,7 +154,7 @@ function Main({ state, update }: { state: State; update: (fn: (s: State) => Stat
   const setReview = (on: boolean) => update((s) => setReviewOn(s, on));
   const importBudget = (text: string) => {
     const next = parseImport(text);
-    if (!next) return "That text isn't an exported budget. Copy it again from Export in the web app.";
+    if (!next) return "That text isn't a Fiscus Board backup. Copy it again and paste the whole thing.";
     update((s) => ({ ...next, ui: s.ui }));
     return null;
   };
@@ -171,7 +173,7 @@ function Main({ state, update }: { state: State; update: (fn: (s: State) => Stat
             {state.ui.hide ? <Icon.eyeOff color={t.ink} /> : <Icon.eye color={t.ink} />}
           </IconButton>
           <IconButton onPress={() => show({ kind: 'settings' })} label="Settings">
-            <Icon.sliders color={t.ink} />
+            <Icon.gear color={t.ink} />
           </IconButton>
         </View>
         <Seg<Tab> value={state.ui.view} options={[['budget', 'Budget'], ['insights', 'Insights']]} onChange={setTab} />
