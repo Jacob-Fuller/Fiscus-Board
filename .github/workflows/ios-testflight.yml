@@ -1,0 +1,58 @@
+# Builds the Fiscus Board iPhone app on GitHub's Macs and uploads it to TestFlight.
+# Run it from GitHub: Actions -> "iOS build to TestFlight" -> Run workflow.
+#   setup : registers the app ID and creates the signing certificate (run once, first)
+#   beta  : builds the app and uploads it to TestFlight
+name: iOS build to TestFlight
+
+on:
+  workflow_dispatch:
+    inputs:
+      lane:
+        description: What to run
+        type: choice
+        options: [beta, setup]
+        default: beta
+
+permissions:
+  contents: write   # signing certificates are stored, encrypted, on the fastlane-match branch
+
+concurrency:
+  group: ios-build
+  cancel-in-progress: false
+
+jobs:
+  ios:
+    runs-on: macos-26
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+
+      - name: Install tools
+        run: |
+          npm install
+          npx expo install --fix
+          gem install fastlane -N
+
+      - name: Create the iOS project
+        if: inputs.lane == 'beta'
+        run: npx expo prebuild --platform ios --clean
+
+      - name: Build and upload
+        run: fastlane ${{ inputs.lane }}
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          MATCH_GIT_URL: https://github.com/${{ github.repository }}.git
+          GH_TOKEN: ${{ github.token }}
+          FASTLANE_SKIP_UPDATE_CHECK: "1"
+          FASTLANE_HIDE_CHANGELOG: "1"
