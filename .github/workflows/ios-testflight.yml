@@ -2,6 +2,7 @@
 # Run it from GitHub: Actions -> "iOS build to TestFlight" -> Run workflow.
 #   setup : registers the app ID and creates the signing certificate (run once, first)
 #   beta  : builds the app and uploads it to TestFlight
+#   listing: uploads the App Store text and screenshots in fastlane/metadata and fastlane/screenshots
 name: iOS build to TestFlight
 
 on:
@@ -10,7 +11,7 @@ on:
       lane:
         description: What to run
         type: choice
-        options: [beta, setup]
+        options: [beta, setup, listing]
         default: beta
 
 permissions:
@@ -37,8 +38,7 @@ jobs:
 
       - name: Install tools
         run: |
-          npm install
-          npm run setup
+          if [ "${{ inputs.lane }}" != listing ]; then npm install && npm run setup; fi
           gem install fastlane -N
 
       - name: Create the iOS project
