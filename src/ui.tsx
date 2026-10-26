@@ -52,11 +52,11 @@ export const Icon = {
 };
 
 export function Logo({ size = 26 }: { size?: number }) {
-  const t = useTheme();
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24">
-      <Rect width={24} height={24} rx={7} fill={t.ink} />
-      <Path d="M6.5 16 L10.2 11.5 L13.4 13.8 L17.5 8" stroke={t.accent} strokeWidth={2.2} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      <Rect width={24} height={24} rx={7} fill="#141A30" />
+      <Circle cx={12} cy={12} r={8.6} fill="none" stroke="#D9B45F" strokeOpacity={0.55} strokeWidth={0.6} />
+      <Path d="M9.6 17V7.6h5.4M9.6 11.6h3.6" stroke="#E8C877" strokeWidth={2.4} fill="none" strokeLinecap="round" strokeLinejoin="round" />
     </Svg>
   );
 }
