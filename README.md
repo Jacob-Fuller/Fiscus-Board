@@ -1,4 +1,4 @@
-# Fiscus Board for iPhone
+# Budget Board for iPhone
 
 A native iPhone app (React Native with Expo). It's built on GitHub's Macs and uploaded to TestFlight by `.github/workflows/ios-testflight.yml` and `fastlane/Fastfile`, the same way as Roster Board. No Mac and no Expo account are needed.
 
@@ -10,7 +10,7 @@ A native iPhone app (React Native with Expo). It's built on GitHub's Macs and up
    - `ASC_KEY_P8`: the whole contents of the `.p8` file, including the BEGIN/END lines
    - `MATCH_PASSWORD`: any long password. It encrypts the signing certificate stored on this repo's `fastlane-match` branch. Keep a copy.
 2. **Actions → "iOS build to TestFlight" → Run workflow → setup.** This registers the app ID `com.fiscusboard.app` and creates the signing certificate.
-3. **App Store Connect → Apps → + → New App.** Platform iOS, bundle ID `com.fiscusboard.app`, name "Fiscus Board", SKU `fiscusboard`.
+3. **App Store Connect → Apps → + → New App.** Platform iOS, bundle ID `com.fiscusboard.app`, name "Budget Board", SKU `fiscusboard`.
 4. **Run the workflow again with beta.** The build appears in TestFlight once Apple has processed it (usually 10–30 minutes).
 
 ## Every update after that

@@ -30,7 +30,7 @@ export type State = { v: 3; settings: Settings; sections: Section[]; review: Rev
 
 export const DEFAULT_REVIEW: Review = { on: false, due: null, last: null, checked: {} };
 
-export const DEFAULT_SETTINGS: Settings = { theme: 'system', accent: 'brass', period: 'fortnight', title: 'Fiscus Board' };
+export const DEFAULT_SETTINGS: Settings = { theme: 'system', accent: 'brass', period: 'fortnight', title: 'Budget Board' };
 
 export const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
 export const r2 = (x: number) => Math.round(x * 100) / 100;
@@ -89,6 +89,7 @@ export function normalise(raw: unknown): State {
   const s = raw as Partial<State> | null;
   if (!s || !Array.isArray(s.sections)) return blankState();
   const settings = { ...DEFAULT_SETTINGS, ...(s.settings ?? {}) };
+  if (settings.title === 'Fiscus Board') settings.title = DEFAULT_SETTINGS.title; // app renamed
   return {
     v: 3,
     settings,

@@ -1,11 +1,11 @@
-# Fiscus Board – App Store listing
+# Budget Board – App Store listing
 
-**Name:** Fiscus Board
+**Name:** Budget Board
 **Subtitle (30):** Budget around your payday
 **Category:** Finance (secondary: Productivity)
 **Price:** Free
 **Age rating:** 4+ (no objectionable content; answer "No" to everything)
-**Copyright:** 2026 Fiscus Board
+**Copyright:** 2026 Budget Board
 **Support URL:** https://fiscusboard.app/support.html
 **Marketing URL:** https://fiscusboard.app
 **Privacy Policy URL:** https://fiscusboard.app/privacy.html
@@ -18,9 +18,9 @@ A clear, private budget built around how often you're paid. Turn every bill into
 budget,pay,fortnight,payday,bills,expenses,income,planner,money,spending,salary,split,savings
 
 **Description:**
-Fiscus Board is a simple, private budget laid out like a spreadsheet and built around your pay cycle.
+Budget Board is a simple, private budget laid out like a spreadsheet and built around your pay cycle.
 
-Add your income and bills once, at whatever frequency they really happen – weekly, fortnightly, monthly, quarterly or yearly – and Fiscus Board converts everything to what it costs each pay. The total card shows what's left each fortnight, and what that adds up to over a year.
+Add your income and bills once, at whatever frequency they really happen – weekly, fortnightly, monthly, quarterly or yearly – and Budget Board converts everything to what it costs each pay. The total card shows what's left each fortnight, and what that adds up to over a year.
 
 LAID OUT CLEARLY
 • Sections and subheadings, with totals for each
@@ -53,4 +53,4 @@ MAKE IT YOURS
 **Screenshots (6.9" 1320×2868):** store/shots/01–05.png
 
 **App Review notes:**
-Fiscus Board needs no sign-in and has no account. All data stays on the device. To try it: tap "+ Item" under Expenses or Income, enter a name, amount and frequency, and Save. Settings (gear icon) holds appearance, accent, display period and the optional 3-month review.
+Budget Board needs no sign-in and has no account. All data stays on the device. To try it: tap "+ Item" under Expenses or Income, enter a name, amount and frequency, and Save. Settings (gear icon) holds appearance, accent, display period and the optional 3-month review.

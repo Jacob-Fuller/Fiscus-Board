@@ -154,7 +154,7 @@ function Main({ state, update }: { state: State; update: (fn: (s: State) => Stat
   const setReview = (on: boolean) => update((s) => setReviewOn(s, on));
   const importBudget = (text: string) => {
     const next = parseImport(text);
-    if (!next) return "That text isn't a Fiscus Board backup. Copy it again and paste the whole thing.";
+    if (!next) return "That text isn't a Budget Board backup. Copy it again and paste the whole thing.";
     update((s) => ({ ...next, ui: s.ui }));
     return null;
   };
@@ -166,7 +166,7 @@ function Main({ state, update }: { state: State; update: (fn: (s: State) => Stat
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, flex: 1, minWidth: 0 }}>
             <Logo />
             <Text style={{ fontSize: 20, fontWeight: '700', letterSpacing: -0.5, color: t.ink, flexShrink: 1 }} numberOfLines={1}>
-              {state.settings.title.trim() || 'Fiscus Board'}
+              {state.settings.title.trim() || 'Budget Board'}
             </Text>
           </View>
           <IconButton onPress={toggleHide} label={state.ui.hide ? 'Show amounts' : 'Hide amounts'}>

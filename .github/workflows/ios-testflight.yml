@@ -1,4 +1,4 @@
-# Builds the Fiscus Board iPhone app on GitHub's Macs and uploads it to TestFlight.
+# Builds the Budget Board iPhone app on GitHub's Macs and uploads it to TestFlight.
 # Run it from GitHub: Actions -> "iOS build to TestFlight" -> Run workflow.
 #   setup : registers the app ID and creates the signing certificate (run once, first)
 #   beta  : builds the app and uploads it to TestFlight

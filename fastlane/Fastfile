@@ -1,12 +1,12 @@
-# Fiscus Board iOS: build and upload to TestFlight from GitHub Actions.
+# Budget Board iOS: build and upload to TestFlight from GitHub Actions.
 # See .github/workflows/ios-testflight.yml and README.md.
 require "base64"
 
 default_platform(:ios)
 
 APP_ID = "com.fiscusboard.app"
-APP_NAME = "FiscusBoard" # Xcode project name Expo creates from "Fiscus Board"
-DISPLAY_NAME = "Fiscus Board"
+APP_NAME = "BudgetBoard" # Xcode project name Expo creates from "Budget Board"
+DISPLAY_NAME = "Budget Board"
 PROJECT = "ios/#{APP_NAME}.xcodeproj"
 WORKSPACE = "ios/#{APP_NAME}.xcworkspace"
 PLIST = "ios/#{APP_NAME}/Info.plist"

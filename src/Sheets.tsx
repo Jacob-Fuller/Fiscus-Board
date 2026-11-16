@@ -75,7 +75,7 @@ function Body({ t, sheet, state, onChange, onSave, onDelete, onMove, onSettings,
     return (
       <>
         <Field label="Budget name">
-          <TextInput style={input} value={st.title} onChangeText={(v) => onSettings({ title: v })} maxLength={28} placeholder="Fiscus Board" placeholderTextColor={t.muted} returnKeyType="done" />
+          <TextInput style={input} value={st.title} onChangeText={(v) => onSettings({ title: v })} maxLength={28} placeholder="Budget Board" placeholderTextColor={t.muted} returnKeyType="done" />
         </Field>
         <Field label="Show amounts per">
           <Seg<Period> value={st.period} options={[['week', 'Week'], ['fortnight', 'Fortnight'], ['month', 'Month']]} onChange={(v) => onSettings({ period: v })} />

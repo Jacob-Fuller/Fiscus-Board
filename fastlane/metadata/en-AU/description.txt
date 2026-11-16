@@ -1,6 +1,6 @@
-Fiscus Board is a simple, private budget laid out like a spreadsheet and built around your pay cycle.
+Budget Board is a simple, private budget laid out like a spreadsheet and built around your pay cycle.
 
-Add your income and bills once, at whatever frequency they really happen – weekly, fortnightly, monthly, quarterly or yearly – and Fiscus Board converts everything to what it costs each pay. The total card shows what's left each fortnight, and what that adds up to over a year.
+Add your income and bills once, at whatever frequency they really happen – weekly, fortnightly, monthly, quarterly or yearly – and Budget Board converts everything to what it costs each pay. The total card shows what's left each fortnight, and what that adds up to over a year.
 
 LAID OUT CLEARLY
 • Sections and subheadings, with totals for each
