@@ -6,12 +6,12 @@ export const ACCENTS: Swatch[] = ['brass', 'blue', 'teal', 'green', 'orange', 'r
 
 const SW: Record<'light' | 'dark', Record<Swatch, string>> = {
   light: { brass: '#8E6A1F', blue: '#3550C8', teal: '#11817C', green: '#2F7A3A', orange: '#B4561E', rose: '#B13E6B', violet: '#6B48B5', slate: '#56607A' },
-  dark: { brass: '#D9B45F', blue: '#8193FF', teal: '#3CC2BC', green: '#7BCB6E', orange: '#F0995C', rose: '#E57BA4', violet: '#A889E6', slate: '#9AA4BE' },
+  dark: { brass: '#D4A946', blue: '#8193FF', teal: '#3CC2BC', green: '#7BCB6E', orange: '#F0995C', rose: '#E57BA4', violet: '#A889E6', slate: '#9AA4BE' },
 };
 
 const BASE = {
-  light: { bg: '#F4F5F8', surface: '#FFFFFF', sunk: '#F0F2F6', band: '#E9ECF2', ink: '#121625', muted: '#646B7F', line: '#E3E6ED', pos: '#1B8456', neg: '#B83D2B', other: '#A2A8B8', card: '#141A2E', card2: '#090C17', accentInk: '#FFFFFF' },
-  dark: { bg: '#0A0D16', surface: '#131725', sunk: '#171C2C', band: '#1C2235', ink: '#ECEDF3', muted: '#9AA0B4', line: '#232939', pos: '#4CC48A', neg: '#F07C66', other: '#5E667D', card: '#1B2138', card2: '#10142A', accentInk: '#12131A' },
+  light: { bg: '#F4F2EE', surface: '#FFFFFF', sunk: '#F0EDE7', band: '#E9E5DD', ink: '#17150F', muted: '#655F55', line: '#E2DED6', pos: '#1B8456', neg: '#B83D2B', other: '#ABA59A', card: '#1C1A16', card2: '#0F0E0C', accentInk: '#FFFFFF' },
+  dark: { bg: '#121214', surface: '#1B1B1E', sunk: '#1F1F23', band: '#242428', ink: '#F3EFE6', muted: '#A8A39A', line: '#2F2F34', pos: '#4CC48A', neg: '#F07C66', other: '#6A665F', card: '#24221D', card2: '#151412', accentInk: '#17130A' },
 };
 
 export type Mode = 'light' | 'dark';
@@ -33,9 +33,9 @@ export function makeTheme(mode: Mode, accent: Swatch): Theme {
     sw: SW[mode],
     accent: SW[mode][accent],
     cardInk: '#F3F0E8',
-    cardMuted: '#9BA1B5',
+    cardMuted: '#BDB4A3',
     cardLine: 'rgba(255,255,255,0.09)',
-    cardCell: 'rgba(9,12,23,0.35)',
+    cardCell: 'rgba(12,11,9,0.35)',
     cardNeg: '#F2937F',
   };
 }

@@ -53,7 +53,7 @@ export const Icon = {
 export function Logo({ size = 26 }: { size?: number }) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24">
-      <Rect width={24} height={24} rx={7} fill="#121C3E" />
+      <Rect width={24} height={24} rx={7} fill="#1A1A1D" />
       <Path d="M12 4.6L19 8.4H5z" fill="#E2B862" />
       <Rect x={5.6} y={9.2} width={12.8} height={1.3} rx={0.3} fill="#E2B862" />
       <Rect x={6.6} y={11.1} width={1.6} height={5.4} rx={0.4} fill="#E2B862" />
@@ -96,7 +96,7 @@ export function Seg<T extends string | number>({ value, options, onChange, wrap 
             style={[
               wrap ? { flexGrow: 1 } : { flex: 1 },
               { paddingVertical: 8, paddingHorizontal: 10, borderRadius: 9, alignItems: 'center' },
-              on && { backgroundColor: t.mode === 'dark' ? '#2C3452' : t.surface, shadowColor: '#000', shadowOpacity: t.mode === 'dark' ? 0.3 : 0.08, shadowRadius: 4, shadowOffset: { width: 0, height: 1 } },
+              on && { backgroundColor: t.mode === 'dark' ? '#2F2F34' : t.surface, shadowColor: '#000', shadowOpacity: t.mode === 'dark' ? 0.3 : 0.08, shadowRadius: 4, shadowOffset: { width: 0, height: 1 } },
             ]}
           >
             <Text style={{ fontSize: 14, fontWeight: '600', color: on ? t.ink : t.muted }}>{label}</Text>

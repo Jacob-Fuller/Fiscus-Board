@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
   big: { fontSize: 52, fontWeight: '600', letterSpacing: -2, marginTop: 2 },
   stats: { flexDirection: 'row', gap: hair, borderRadius: 13, overflow: 'hidden' },
   stat: { flex: 1, paddingVertical: 10, paddingHorizontal: 12, minWidth: 0 },
-  statKey: { fontSize: 11, letterSpacing: 0.8, textTransform: 'uppercase', color: '#9BA1B5', fontWeight: '600' },
+  statKey: { fontSize: 11, letterSpacing: 0.8, textTransform: 'uppercase', color: '#BDB4A3', fontWeight: '600' },
   statVal: { fontSize: 16, fontWeight: '600', letterSpacing: -0.3, marginTop: 1 },
   section: { borderRadius: 18, borderWidth: hair, overflow: 'hidden' },
   secHead: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 13, paddingHorizontal: 16 },
