@@ -1,11 +1,14 @@
 # Builds the Budget Board iPhone app on GitHub's Macs and uploads it to TestFlight.
-# Run it from GitHub: Actions -> "iOS build to TestFlight" -> Run workflow.
+# Runs (beta) when a commit on main has [testflight] in its message, or by hand:
+# Actions -> "iOS build to TestFlight" -> Run workflow.
 #   setup : registers the app ID and creates the signing certificate (run once, first)
 #   beta  : builds the app and uploads it to TestFlight
 #   listing: uploads the App Store text and screenshots in fastlane/metadata and fastlane/screenshots
 name: iOS build to TestFlight
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       lane:
@@ -23,6 +26,7 @@ concurrency:
 
 jobs:
   ios:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[testflight]')
     runs-on: macos-26
     timeout-minutes: 60
     steps:
@@ -38,15 +42,15 @@ jobs:
 
       - name: Install tools
         run: |
-          if [ "${{ inputs.lane }}" != listing ]; then npm install && npm run setup; fi
+          if [ "${{ inputs.lane || 'beta' }}" != listing ]; then npm install && npm run setup; fi
           gem install fastlane -N
 
       - name: Create the iOS project
-        if: inputs.lane == 'beta'
+        if: (inputs.lane || 'beta') == 'beta'
         run: npx expo prebuild --platform ios --clean
 
       - name: Build and upload
-        run: fastlane ${{ inputs.lane }}
+        run: fastlane ${{ inputs.lane || 'beta' }}
         env:
           ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
           ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
