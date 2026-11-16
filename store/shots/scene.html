@@ -108,10 +108,10 @@ return `<div class="sheet" style="background:${t.surface}"><div class="bar" styl
 function reviewBanner(t,n,tot){return `<div style="border-radius:16px;border:1px solid ${mix(t.accent,t.line,.45)};background:${t.surface};padding:13px 15px;margin-bottom:16px"><div style="display:flex;justify-content:space-between;align-items:baseline"><b style="font-size:15px;color:${t.ink};font-weight:600">Quarterly review</b><span class="num" style="font-size:13px;color:${t.muted}">${n} of ${tot} checked</span></div><div style="height:6px;border-radius:3px;background:${t.sunk};margin:9px 0"><div style="height:6px;border-radius:3px;background:${t.accent};width:${n/tot*100}%"></div></div><div style="font-size:13px;color:${t.muted}">Tick each amount once you've checked it.</div></div>`}
 
 /* decorative backdrop: original columns + meander band, not from any other app */
-function backdrop(v){const gold='#E2B862';
-const cols=[...Array(7)].map((_,i)=>`<rect x="${18+i*66}" y="700" width="16" height="320" rx="3" fill="${gold}" opacity=".06"/>`).join('');
-const key=[...Array(12)].map((_,i)=>`<path d="M${i*40} 0h30v20h-20v-10h10" fill="none" stroke="${gold}" stroke-width="2" opacity=".22" transform="translate(0,${v.keyY||200})"/>`).join('');
-return `<svg width="440" height="956" style="position:absolute;inset:0" viewBox="0 0 440 956"><defs><radialGradient id="g" cx="${v.gx||50}%" cy="${v.gy||18}%" r="75%"><stop offset="0" stop-color="${v.c1}"/><stop offset="1" stop-color="${v.c2}"/></radialGradient><radialGradient id="h" cx="50%" cy="40%" r="50%"><stop offset="0" stop-color="${gold}" stop-opacity=".22"/><stop offset="1" stop-color="${gold}" stop-opacity="0"/></radialGradient></defs><rect width="440" height="956" fill="url(#g)"/><ellipse cx="220" cy="560" rx="300" ry="380" fill="url(#h)"/>${cols}${key}</svg>`}
+function backdrop(v,W=440){const gold='#E2B862';
+const cols=[...Array(Math.round(7*W/440))].map((_,i)=>`<rect x="${18+i*66}" y="700" width="16" height="320" rx="3" fill="${gold}" opacity=".06"/>`).join('');
+const key=[...Array(Math.ceil(W/40))].map((_,i)=>`<path d="M${i*40} 0h30v20h-20v-10h10" fill="none" stroke="${gold}" stroke-width="2" opacity=".22" transform="translate(0,${v.keyY||200})"/>`).join('');
+return `<svg width="${W}" height="956" style="position:absolute;inset:0" viewBox="0 0 ${W} 956"><defs><radialGradient id="g" cx="${v.gx||50}%" cy="${v.gy||18}%" r="75%"><stop offset="0" stop-color="${v.c1}"/><stop offset="1" stop-color="${v.c2}"/></radialGradient><radialGradient id="h" cx="50%" cy="40%" r="50%"><stop offset="0" stop-color="${gold}" stop-opacity=".22"/><stop offset="1" stop-color="${gold}" stop-opacity="0"/></radialGradient></defs><rect width="${W}" height="956" fill="url(#g)"/><ellipse cx="${W/2}" cy="600" rx="${W*.6}" ry="420" fill="url(#h)"/>${cols}${key}</svg>`}
 const SCENES={
  1:{c1:'#2E2B26',c2:'#0B0B0D',ink:'#F3EFE6',h:'Budget around<br>your payday',p:'Every bill turned into what it costs each pay.',mode:'dark',acc:'brass',body:t=>header(t,'Budget')+totalCard(t)+section(t,SECTIONS[0])+section(t,SECTIONS[1])},
  2:{c1:'#2A2824',c2:'#0A0A0C',ink:'#F3EFE6',h:'Laid out like<br>a spreadsheet',p:'Sections, subheadings and totals, split with whoever you share with.',mode:'dark',acc:'teal',gx:20,body:t=>header(t,'Budget')+`<div style="margin-top:-16px"></div>`+section(t,SECTIONS[1])+section(t,SECTIONS[3])},
@@ -119,7 +119,18 @@ const SCENES={
  4:{c1:'#F6EEDB',c2:'#D9C79E',ink:'#1C1A16',h:'A check-in every<br>three months',p:'Tick off each amount to keep it current.',mode:'light',acc:'brass',light:true,body:t=>header(t,'Budget')+reviewBanner(t,3,7)+section(t,SECTIONS[2],{ticks:['Fuel','Car insurance','Phone'],noTotal:true})+section(t,SECTIONS[3],{ticks:[],noTotal:true})},
  5:{c1:'#2A2824',c2:'#0A0A0C',ink:'#F3EFE6',h:'Make it yours',p:'Light or dark, seven accents, fully private.',mode:'light',acc:'blue',gx:50,body:t=>header(t,'Budget')+totalCard(t)+section(t,SECTIONS[0])+settingsSheet(t,'blue')},
 };
+const PHONE='background:linear-gradient(145deg,#3a3a40,#121216);box-shadow:0 40px 80px rgba(0,0,0,.55),0 0 0 1.5px #55555c inset';
+if(location.hash=='#pano'){
+ // 01 + 02 as one wide scene: a tilted phone across the join, floating cards on the right
+ const v=SCENES[1],w=SCENES[2],t=theme('dark','brass'),t2=theme('dark','teal');
+ document.body.style.width='880px';const st=document.getElementById('stage');st.style.width='880px';
+ st.innerHTML=backdrop(v,880)+`<div class="head" style="color:${v.ink};right:auto;width:440px"><h1>${v.h}</h1><p>${v.p}</p></div>
+<div class="head" style="color:${w.ink};left:440px;right:auto;width:440px"><h1>${w.h}</h1><p>${w.p}</p></div>
+<div style="position:absolute;left:575px;top:300px;width:290px;transform:rotate(4deg) scale(.86);transform-origin:top left;z-index:6;border-radius:20px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.55),0 0 0 1px rgba(226,184,98,.45);background:${t2.bg};padding:0 10px 10px">${section(t2,SECTIONS[3])}</div>
+<div style="position:absolute;left:590px;top:640px;width:290px;transform:rotate(-3deg) scale(.86);transform-origin:top left;z-index:6;border-radius:20px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,.55),0 0 0 1px rgba(226,184,98,.45);background:${t2.bg};padding:0 10px 10px">${section(t2,SECTIONS[2])}</div><div class="phone" style="left:430px;top:250px;transform:translateX(-50%) rotate(-8deg) scale(.9);${PHONE}"><div class="screen" style="background:${t.bg}"><div class="island"></div>${v.body(t)}</div></div>`;
+}else{
 const n=+location.hash.slice(1)||1,v=SCENES[n],t=theme(v.mode,v.acc);
 document.getElementById('stage').innerHTML=backdrop(v)+`<div class="head" style="color:${v.ink}"><h1>${v.h}</h1><p>${v.p}</p></div>
 <div class="phone" style="background:linear-gradient(145deg,#3a3a40,#121216);box-shadow:0 40px 80px rgba(0,0,0,${v.light?.28:.55}),0 0 0 1.5px #55555c inset"><div class="screen" style="background:${t.bg}"><div class="island"></div>${v.body(t)}</div></div>`;
+}
 </script></body></html>
