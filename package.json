@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "expo": "~54.0.0"
+    "expo": "~54.0.0",
+    "expo-iap": "6.0.0"
   },
   "devDependencies": {
     "@types/react": "~19.1.0",

@@ -10,6 +10,7 @@ import { Entry, Item, Section, Settings, State, View as Tab, isHeading, parseImp
 import { flushState, loadState, saveState } from './src/storage';
 import { SWATCHES, ThemeContext, makeTheme } from './src/theme';
 import { Icon, IconButton, Logo, Seg } from './src/ui';
+import { FREE_SECTIONS, PremiumProvider, usePremium } from './src/premium';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -52,7 +53,9 @@ function Root() {
   return (
     <ThemeContext.Provider value={theme}>
       <StatusBar style={mode === 'dark' ? 'light' : 'dark'} />
-      <Main state={state} update={update} />
+      <PremiumProvider>
+        <Main state={state} update={update} />
+      </PremiumProvider>
     </ThemeContext.Provider>
   );
 }
@@ -62,6 +65,8 @@ function Main({ state, update }: { state: State; update: (fn: (s: State) => Stat
   const t = React.useContext(ThemeContext);
   const [sheet, setSheet] = useState<SheetState | null>(null);
   const [open, setOpen] = useState(false);
+  const premium = usePremium();
+  const wallAfterClose = React.useRef('');
 
   const show = (s: SheetState) => {
     setSheet(s);
@@ -83,8 +88,10 @@ function Main({ state, update }: { state: State; update: (fn: (s: State) => Stat
     const s = findSection(state, id);
     if (s) show({ kind: 'section', id, confirm: false, data: { name: s.name, type: s.type, split: s.split, color: s.color } });
   };
-  const addSection = () =>
+  const addSection = () => {
+    if (premium.locked && state.sections.length >= FREE_SECTIONS) return premium.paywall('The free version has up to ' + FREE_SECTIONS + ' sections.');
     show({ kind: 'section', id: null, confirm: false, data: { name: '', type: 'out', split: 1, color: SWATCHES[state.sections.length % SWATCHES.length] } });
+  };
 
   /* saving */
   const save = () => {
@@ -95,6 +102,10 @@ function Main({ state, update }: { state: State; update: (fn: (s: State) => Stat
     if (sheet.kind === 'section') {
       const d = sheet.data;
       const split = d.type === 'in' ? 1 : d.split;
+      if (premium.locked && split > 1) {
+        wallAfterClose.current = 'Splitting a section is part of Premium.';
+        return close();
+      }
       update((s) => {
         if (sheet.id) return { ...s, sections: s.sections.map((x) => (x.id === sheet.id ? { ...x, name, type: d.type, split, color: d.color } : x)) };
         const rec: Section = { id: uid(), name, type: d.type, split, color: d.color, items: [] };
@@ -148,7 +159,10 @@ function Main({ state, update }: { state: State; update: (fn: (s: State) => Stat
   };
 
   const setSettings = (patch: Partial<Settings>) => update((s) => ({ ...s, settings: { ...s.settings, ...patch } }));
-  const setTab = (view: Tab) => update((s) => ({ ...s, ui: { ...s.ui, view } }));
+  const setTab = (view: Tab) => {
+    if (view === 'insights' && premium.locked) return premium.paywall('Insights are part of Premium.');
+    update((s) => ({ ...s, ui: { ...s.ui, view } }));
+  };
   const toggleHide = () => update((s) => ({ ...s, ui: { ...s.ui, hide: !s.ui.hide } }));
   const tick = (id: string) => update((s) => toggleReviewTick(s, id));
   const setReview = (on: boolean) => update((s) => setReviewOn(s, on));
@@ -176,12 +190,12 @@ function Main({ state, update }: { state: State; update: (fn: (s: State) => Stat
             <Icon.gear color={t.ink} />
           </IconButton>
         </View>
-        <Seg<Tab> value={state.ui.view} options={[['budget', 'Budget'], ['insights', 'Insights']]} onChange={setTab} />
+        <Seg<Tab> value={premium.locked ? 'budget' : state.ui.view} options={[['budget', 'Budget'], ['insights', 'Insights']]} onChange={setTab} />
       </View>
 
       <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 8, paddingBottom: insets.bottom + 40 }} keyboardShouldPersistTaps="handled">
         <View style={{ width: '100%', maxWidth: 760, alignSelf: 'center' }}>
-          {state.ui.view === 'budget' ? (
+          {state.ui.view === 'budget' || premium.locked ? (
             <BudgetScreen state={state} onEditEntry={editEntry} onAddItem={addItem} onTick={tick} onEditSection={editSection} onAddSection={addSection} />
           ) : (
             <InsightsScreen state={state} />
@@ -196,7 +210,11 @@ function Main({ state, update }: { state: State; update: (fn: (s: State) => Stat
         state={state}
         onChange={setSheet}
         onClose={close}
-        onDismissed={() => !open && setSheet(null)}
+        onDismissed={() => {
+          if (open) return;
+          setSheet(null);
+          if (wallAfterClose.current) { premium.paywall(wallAfterClose.current); wallAfterClose.current = ''; }
+        }}
         onSave={save}
         onDelete={remove}
         onMove={move}

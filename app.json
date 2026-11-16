@@ -28,7 +28,8 @@
             "backgroundColor": "#121214"
           }
         }
-      ]
+      ],
+      "expo-iap"
     ]
   }
 }

@@ -3,7 +3,7 @@
 **Name:** Budget Board
 **Subtitle (30):** Budget around your payday
 **Category:** Finance (secondary: Productivity)
-**Price:** Free
+**Price:** Free, with an in-app purchase
 **Age rating:** 4+ (no objectionable content; answer "No" to everything)
 **Copyright:** 2026 Budget Board
 **Support URL:** https://fiscusboard.app/support.html
@@ -50,7 +50,19 @@ MAKE IT YOURS
 • Seven accent colours
 • Name your budget
 
+BUDGET BOARD PREMIUM
+The free version includes up to 3 sections. Premium unlocks unlimited sections, Insights and split sections with a one-off purchase. No subscription.
+Terms of Use: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+
 **Screenshots (6.9" 1320×2868):** store/shots/01–05.png
 
 **App Review notes:**
-Budget Board needs no sign-in and has no account. All data stays on the device. To try it: tap "+ Item" under Expenses or Income, enter a name, amount and frequency, and Save. Settings (gear icon) holds appearance, accent, display period and the optional 3-month review.
+Budget Board needs no sign-in and has no account. All data stays on the device. To try it: tap "+ Item" under Expenses or Income, enter a name, amount and frequency, and Save. Settings (gear icon) holds appearance, accent, display period and the optional 3-month review. Premium (one-off purchase) can be tested with a Sandbox account: tap the Insights tab, or add a fourth section.
+
+**In-app purchase (create in App Store Connect before submitting):**
+
+| Product ID | Type | Price |
+|---|---|---|
+| com.fiscusboard.app.premium.lifetime | Non-consumable | A$9.99 |
+
+The Paid Apps Agreement must be active.
