@@ -63,6 +63,6 @@ Budget Board needs no sign-in and has no account. All data stays on the device. 
 
 | Product ID | Type | Price |
 |---|---|---|
-| com.fiscusboard.app.premium.lifetime | Non-consumable | A$4.99 |
+| com.fiscusboard.app.premium.lifetime | Non-consumable | A$9.99 |
 
 The Paid Apps Agreement must be active.
