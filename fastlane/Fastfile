@@ -82,6 +82,7 @@ platform :ios do
     end
     build_number = (last.to_i + 1).to_s
     set_info_plist_value(path: PLIST, key: "CFBundleVersion", value: build_number)
+    set_info_plist_value(path: PLIST, key: "CFBundleDisplayName", value: DISPLAY_NAME) # home screen name, with the space
 
     build_app(
       workspace: WORKSPACE,
