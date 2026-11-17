@@ -1,5 +1,5 @@
 // Premium through an Apple in-app purchase: a one-off lifetime unlock.
-// Free: up to 3 sections, no Insights, no split sections.
+// Free: every feature, up to 3 sections with up to 6 items each. Premium removes the limits.
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as IAP from 'expo-iap';
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
@@ -10,6 +10,7 @@ import { Button, Icon } from './ui';
 
 export const PREMIUM_LIFETIME = 'com.fiscusboard.app.premium.lifetime';
 export const FREE_SECTIONS = 3;
+export const FREE_ITEMS = 6; // items per section (headings don't count)
 const KEY = 'fiscusboard.premium';
 const supported = Platform.OS === 'ios';
 
@@ -110,7 +111,7 @@ export function PremiumProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-const PERKS = ['Unlimited sections', 'Insights', 'Split sections with others'];
+const PERKS = ['Unlimited sections', 'Unlimited items in every section'];
 
 function Paywall({ open, reason, onClose }: { open: boolean; reason: string; onClose: () => void }) {
   const t = useTheme();

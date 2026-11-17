@@ -10,7 +10,7 @@ import { Entry, Item, Section, Settings, State, View as Tab, isHeading, parseImp
 import { flushState, loadState, saveState } from './src/storage';
 import { SWATCHES, ThemeContext, makeTheme } from './src/theme';
 import { Icon, IconButton, Logo, Seg } from './src/ui';
-import { FREE_SECTIONS, PremiumProvider, usePremium } from './src/premium';
+import { FREE_ITEMS, FREE_SECTIONS, PremiumProvider, usePremium } from './src/premium';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -82,7 +82,11 @@ function Main({ state, update }: { state: State; update: (fn: (s: State) => Stat
     if (isHeading(e)) show({ kind: 'heading', secId, id, confirm: false, data: { name: e.name } });
     else show({ kind: 'item', secId, id, confirm: false, data: { name: e.name, amount: String(e.amount), freq: e.freq } });
   };
-  const addItem = (secId: string) => show({ kind: 'item', secId, id: null, confirm: false, data: { name: '', amount: '', freq: 'fortnightly' } });
+  const addItem = (secId: string) => {
+    const sec = findSection(state, secId);
+    if (premium.locked && sec && sec.items.filter((e) => !isHeading(e)).length >= FREE_ITEMS) return premium.paywall('The free version has up to ' + FREE_ITEMS + ' items in each section.');
+    show({ kind: 'item', secId, id: null, confirm: false, data: { name: '', amount: '', freq: 'fortnightly' } });
+  };
   const addHeading = (secId: string) => show({ kind: 'heading', secId, id: null, confirm: false, data: { name: '' } });
   const editSection = (id: string) => {
     const s = findSection(state, id);
@@ -102,10 +106,6 @@ function Main({ state, update }: { state: State; update: (fn: (s: State) => Stat
     if (sheet.kind === 'section') {
       const d = sheet.data;
       const split = d.type === 'in' ? 1 : d.split;
-      if (premium.locked && split > 1) {
-        wallAfterClose.current = 'Splitting a section is part of Premium.';
-        return close();
-      }
       update((s) => {
         if (sheet.id) return { ...s, sections: s.sections.map((x) => (x.id === sheet.id ? { ...x, name, type: d.type, split, color: d.color } : x)) };
         const rec: Section = { id: uid(), name, type: d.type, split, color: d.color, items: [] };
@@ -160,7 +160,6 @@ function Main({ state, update }: { state: State; update: (fn: (s: State) => Stat
 
   const setSettings = (patch: Partial<Settings>) => update((s) => ({ ...s, settings: { ...s.settings, ...patch } }));
   const setTab = (view: Tab) => {
-    if (view === 'insights' && premium.locked) return premium.paywall('Insights are part of Premium.');
     update((s) => ({ ...s, ui: { ...s.ui, view } }));
   };
   const toggleHide = () => update((s) => ({ ...s, ui: { ...s.ui, hide: !s.ui.hide } }));
@@ -190,12 +189,12 @@ function Main({ state, update }: { state: State; update: (fn: (s: State) => Stat
             <Icon.gear color={t.ink} />
           </IconButton>
         </View>
-        <Seg<Tab> value={premium.locked ? 'budget' : state.ui.view} options={[['budget', 'Budget'], ['insights', 'Insights']]} onChange={setTab} />
+        <Seg<Tab> value={state.ui.view} options={[['budget', 'Budget'], ['insights', 'Insights']]} onChange={setTab} />
       </View>
 
       <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 8, paddingBottom: insets.bottom + 40 }} keyboardShouldPersistTaps="handled">
         <View style={{ width: '100%', maxWidth: 760, alignSelf: 'center' }}>
-          {state.ui.view === 'budget' || premium.locked ? (
+          {state.ui.view === 'budget' ? (
             <BudgetScreen state={state} onEditEntry={editEntry} onAddItem={addItem} onTick={tick} onEditSection={editSection} onAddSection={addSection} />
           ) : (
             <InsightsScreen state={state} />
