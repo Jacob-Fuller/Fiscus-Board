@@ -33,7 +33,7 @@ const owned = (list: any[]) => (list || []).some((p) => p.productId === PREMIUM_
 
 export function PremiumProvider({ children }: { children: React.ReactNode }) {
   const [active, setActive] = useState(false);
-  const [price, setPrice] = useState('$9.99');
+  const [price, setPrice] = useState('$4.99');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [wall, setWall] = useState<{ open: boolean; reason: string }>({ open: false, reason: '' });
